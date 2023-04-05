@@ -1,9 +1,11 @@
-import React, { useState } from React;
+import React, { useState } from 'react';
 import './KeystoneCalculator.css';
 
-const KeystoneCalculator = ({keyLevels, setKeyLevels}) => {
+const KeystoneCalculator = ({keyLevels, setKeyLevels, dungeons}) => {
     const [error, setError] = useState("");
+    console.log("dungeons in calculator: ",dungeons);
 
+    /*
     //Get Dungeon List for Current Season
     const dungeons = [
         "SBG",
@@ -15,6 +17,7 @@ const KeystoneCalculator = ({keyLevels, setKeyLevels}) => {
         "NO",
         "RLP",
       ];
+    */
 
     //Define Color Mapping TODO: Include all colors for RaiderIO Addon
     const scoreColorMapping = {
@@ -36,23 +39,10 @@ const KeystoneCalculator = ({keyLevels, setKeyLevels}) => {
         '1545.0': '#5ca5a5',
         '0.0': 'white',
       };
-    /**
-     * Generates the initial state for the under percentage of dungeons.
-     *
-     * The initial state is an object where each dungeon is a key, and its value is
-     * another object containing keys for each under percentage (e.g., 0, 1) and their
-     * respective default values (e.g., 0.05).
-     *
-     * @returns {Object} The initial state object for under percentages of dungeons.
-     * @example
-     * {
-     *   "Dungeon 1": { 0: 0.05, 1: 0.05 },
-     *   "Dungeon 2": { 0: 0.05, 1: 0.05 },
-     *   
-     * }
-     */
+
+      //For the "Normal Mode" of the calculator, we set all underPercentage Values to 5%
       const generateInitialUnderPercentageState = () => {
-        const initialState = {};
+      const initialState = {};
 
         dungeons.forEach((dungeon) => {
           initialState[dungeon] = { 0: 0.05, 1: 0.05 };
@@ -83,6 +73,7 @@ const KeystoneCalculator = ({keyLevels, setKeyLevels}) => {
 
 
     return (
+      <div></div>
 
 
     );

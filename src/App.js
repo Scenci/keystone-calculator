@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css';
 import AffixBanner from './components/AffixBanner';
 import CharacterSearch from './components/CharacterSearch';
+import KeystoneCalculator from './components/KeystoneCalculator';
 //import KeystoneCalculator from './components/KeytoneCalculator';
 
 
@@ -55,6 +56,7 @@ function App() {
 }, []);
 
 //We use a second hook to ensure that we get our data after StaticData is loaded by the time we attempt to getCurrentSeason(...)
+//We only check the season status against North America ('us') because the 24-hour timing will be irrelevant during Season Start.
 useEffect(() => {
   const getCurrentSeason = (seasons) => {
     const currentTime = new Date();
@@ -88,8 +90,11 @@ useEffect(() => {
   }
 }, [currentSeason]);
 
+//Fourth Hook to print the currentDungeons data
 useEffect(() => {
   console.log("Updated current dungeons:", currentDungeons);
+  
+
 }, [currentDungeons]);
 
 
@@ -105,6 +110,7 @@ useEffect(() => {
         mythic_plus_best_runs: result.data.mythic_plus_best_runs,
         mythic_plus_alternate_runs: result.data.mythic_plus_alternate_runs,
       };
+
       console.log("combined data: ",combinedData);
 
       setSearchResults((prevResults) => [...prevResults, combinedData]);
@@ -124,8 +130,10 @@ useEffect(() => {
           <CharacterSearch onSearch={handleCharacterSearch} />
         </div>
         <div className="keystone-calculator-container">
+          <KeystoneCalculator
 
-
+          dungeons={currentDungeons.map(dungeon => dungeon.short_name)}
+          />
         </div>
       </div>
 
