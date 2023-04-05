@@ -3,6 +3,14 @@ module.exports = {
     transform: {
       '^.+\\.(js|jsx)$': 'babel-jest',
     },
+    "roots": [
+        "./",
+        "/home/some/path/"
+      ],
+      "modulePaths": [
+        "<rootDir>",
+        "/home/some/other/path"
+      ],
       "moduleDirectories": [
         "node_modules",
         "src"

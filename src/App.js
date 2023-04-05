@@ -14,7 +14,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [seasons, setSeasons] = useState([]);
-  const [dungeons, setDungeons] = useState([]);
+  const [currentSeason, setCurrentSeason] = useState();
+  const [currentDungeons, setCurrentDungeons] = useState([]);
 
 
 
@@ -41,7 +42,7 @@ function App() {
         //We use season short_name to identify the season and season start to know when the current season is.
         setSeasons(response.data.seasons);
         
-        console.log("ALL SEASONS:" ,response.data.seasons);
+        //console.log("ALL SEASONS:" ,response.data.seasons);
 
       } catch (error) {
         console.error("Error fetching static data:", error);
@@ -51,39 +52,47 @@ function App() {
     fetchAffixes();
     fetchStaticData();
 
-    const getCurrentSeason = (seasons) => {
-      const currentTime = new Date();
-      for (let season of seasons) {
-        if (season.starts.us === null) {
-          continue;
-        }
-        const start = new Date(season.starts.us);
-        const end = season.ends.us ? new Date(season.ends.us) : null;
-    
-        if (currentTime >= start && (end === null || currentTime <= end)) {
-          return season;
-        }
-      }
-    
-      return null;
-    };
-
-    const activeSeason = getCurrentSeason(seasons);
-    if (activeSeason) {
-      console.log("The active season is:", activeSeason.name);
-    } else {
-      console.log("There is no active season.");
-    }
-  
-
-
 }, []);
 
+//We use a second hook to ensure that we get our data after StaticData is loaded by the time we attempt to getCurrentSeason(...)
+useEffect(() => {
+  const getCurrentSeason = (seasons) => {
+    const currentTime = new Date();
+
+    for (let season of seasons) {
+      if (season.starts.us === null) {
+        continue;
+      }
+      const start = new Date(season.starts.us);
+      const end = season.ends.us ? new Date(season.ends.us) : null;
+
+      if (currentTime >= start && (end === null || currentTime <= end)) {
+        return season;
+      }
+    }
+
+    return null;
+  };
+
+  // Only call setCurrentSeason if seasons data is available
+  if (seasons.length > 0) {
+    setCurrentSeason(getCurrentSeason(seasons));
+  }
+}, [seasons]);
 
 
+//Third Hook to assign currentDungeons from currentSeason
+useEffect(() => {
+  if (currentSeason && currentSeason.dungeons) {
+    setCurrentDungeons(currentSeason.dungeons);
+  }
+}, [currentSeason]);
+
+useEffect(() => {
+  console.log("Updated current dungeons:", currentDungeons);
+}, [currentDungeons]);
 
 
-  
 
   const handleCharacterSearch = async (region, server, characterName) => {
     try {
