@@ -31,8 +31,6 @@ const affixColorMapping = {
 
 
 const parseAffixes = (affixesString) => {
-    console.log("affixesString value:", affixesString);
-    console.log("affixesString type:", typeof affixesString);
     return affixesString.split(`, `).map(affix => affix.trim());
 };
 
