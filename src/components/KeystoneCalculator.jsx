@@ -2,22 +2,13 @@ import React, { useState } from 'react';
 import './KeystoneCalculator.css';
 
 const KeystoneCalculator = ({keyLevels, setKeyLevels, dungeons}) => {
-    const [error, setError] = useState("");
-    console.log("dungeons in calculator: ",dungeons);
 
-    /*
-    //Get Dungeon List for Current Season
-    const dungeons = [
-        "SBG",
-        "COS",
-        "TJS",
-        "HOV",
-        "AA",
-        "AV",
-        "NO",
-        "RLP",
-      ];
-    */
+    //We need character information from Search to load the calculator.
+    
+    const [error, setError] = useState("");
+    //console.log("dungeons in calculator: ",dungeons);
+    //console.log("Character In Calculator: ",dungeons);
+
 
     //Define Color Mapping TODO: Include all colors for RaiderIO Addon
     const scoreColorMapping = {
@@ -43,26 +34,18 @@ const KeystoneCalculator = ({keyLevels, setKeyLevels, dungeons}) => {
       //For the "Normal Mode" of the calculator, we set all underPercentage Values to 5%
       const generateInitialUnderPercentageState = () => {
       const initialState = {};
-
         dungeons.forEach((dungeon) => {
           initialState[dungeon] = { 0: 0.05, 1: 0.05 };
         });
-      
         return initialState;
       };
     
-
       const [underPercentageState, setUnderPercentageState] = useState(generateInitialUnderPercentageState());
 
-
-
-
-
-
-
-
-
-
+      const getScoreColor = (score) => {
+        const scoreRange = Object.keys(scoreColorMapping).find((range) => score > parseFloat(range));
+        return scoreRange ? scoreColorMapping[scoreRange] : 'white';
+      };
 
 
 

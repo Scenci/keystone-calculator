@@ -18,6 +18,8 @@ function App() {
   const [currentSeason, setCurrentSeason] = useState();
   const [currentDungeons, setCurrentDungeons] = useState([]);
 
+  const [errorMessage,setErrorMessage] = useState('');
+
 
 
   useEffect(() => {
@@ -97,14 +99,19 @@ useEffect(() => {
 
 }, [currentDungeons]);
 
-
+useEffect(() => {
+  console.log("Search Results === Dungeon Data: ", searchResults);
+  console.log("Character: ",searchResults.character);
+  console.log("Best Runs: ", searchResults.mythic_plus_best_runs);
+  console.log("Alternate Runs: ", searchResults.mythic_plus_alternate_runs);
+}, [searchResults]);
 
   const handleCharacterSearch = async (region, server, characterName) => {
     try {
       const result = await axios(
         `https://raider.io/api/v1/characters/profile?region=${region}&realm=${server}&name=${characterName}&fields=mythic_plus_scores_by_season%3Acurrent%2Cmythic_plus_best_runs%3Aall%2Cmythic_plus_alternate_runs%3Aall`
       );
-
+      
       const combinedData = {
         character: result.data,
         mythic_plus_best_runs: result.data.mythic_plus_best_runs,
@@ -113,11 +120,19 @@ useEffect(() => {
 
       console.log("combined data: ",combinedData);
 
-      setSearchResults((prevResults) => [...prevResults, combinedData]);
+      //Search Results are effectively the dungeonData from the previous app.
+      //Overwrite the searchResults state everytime a new character is searched.
+      setSearchResults(combinedData);
+  
+      setErrorMessage(""); // Clear any previous error message
     } catch (error) {
       console.error('Error fetching character data:', error);
+      setErrorMessage('Failed to find a valid user. Please check the input and try again.');
     }
+
   };
+
+
 
 
   return(
@@ -127,8 +142,17 @@ useEffect(() => {
         {affixes.length > 0 && <div className="affix-container"><AffixBanner affixes={affixes}/></div>}
 
         <div className="search-container">
-          <CharacterSearch onSearch={handleCharacterSearch} />
+        <CharacterSearch onSearch={handleCharacterSearch} setErrorMessage={setErrorMessage} />
+
+
         </div>
+        {errorMessage && (
+          <div className="error-message">
+            <p>{errorMessage}</p>
+          </div>
+        )}
+
+
         <div className="keystone-calculator-container">
           <KeystoneCalculator
 
