@@ -5,9 +5,7 @@ const CharacterSearch = ({ onSearch }) => {
   const [region, setRegion] = useState('us');
   const [server, setServer] = useState('');
   const [characterName, setCharacterName] = useState('');
-
   const [isSearching, setIsSearching] = useState(false);
-
   const [errorMessage, setErrorMessage] = useState('');
   
 

@@ -18,6 +18,8 @@ function App() {
   const [currentSeason, setCurrentSeason] = useState();
   const [currentDungeons, setCurrentDungeons] = useState([]);
 
+  const [lastSearchedCharacter, setLastSearchedCharacter] = useState(null);
+
   const [errorMessage,setErrorMessage] = useState('');
 
 
@@ -106,33 +108,51 @@ useEffect(() => {
   console.log("Alternate Runs: ", searchResults.mythic_plus_alternate_runs);
 }, [searchResults]);
 
-  const handleCharacterSearch = async (region, server, characterName) => {
-    try {
-      const result = await axios(
-        `https://raider.io/api/v1/characters/profile?region=${region}&realm=${server}&name=${characterName}&fields=mythic_plus_scores_by_season%3Acurrent%2Cmythic_plus_best_runs%3Aall%2Cmythic_plus_alternate_runs%3Aall`
-      );
-      
-      const combinedData = {
-        character: result.data,
-        mythic_plus_best_runs: result.data.mythic_plus_best_runs,
-        mythic_plus_alternate_runs: result.data.mythic_plus_alternate_runs,
-      };
-
-      console.log("combined data: ",combinedData);
-
-      //Search Results are effectively the dungeonData from the previous app.
-      //Overwrite the searchResults state everytime a new character is searched.
-      setSearchResults(combinedData);
-  
-      setErrorMessage(""); // Clear any previous error message
-    } catch (error) {
-      console.error('Error fetching character data:', error);
-      setErrorMessage('Failed to find a valid user. Please check the input and try again.');
-    }
-
-  };
 
 
+
+/* Handle Character Search
+* 
+* 
+* 
+* 
+*
+*/ 
+const handleCharacterSearch = async (region, server, characterName) => {
+
+  const characterKey = `${region}-${server}-${characterName.toLowerCase()}`;
+
+  if (lastSearchedCharacter === characterKey) {
+    setErrorMessage("You've already searched for this character.");
+    return Promise.reject();
+  }
+
+  try {
+    const result = await axios(
+      `https://raider.io/api/v1/characters/profile?region=${region}&realm=${server}&name=${characterName}&fields=mythic_plus_scores_by_season%3Acurrent%2Cmythic_plus_best_runs%3Aall%2Cmythic_plus_alternate_runs%3Aall`
+    );
+
+    const combinedData = {
+      character: result.data,
+      mythic_plus_best_runs: result.data.mythic_plus_best_runs,
+      mythic_plus_alternate_runs: result.data.mythic_plus_alternate_runs,
+    };
+
+    setSearchResults(combinedData);
+    setLastSearchedCharacter(characterKey);
+
+    setErrorMessage("");
+    
+    return Promise.resolve();
+
+  } catch (error) {
+
+    console.error('Error fetching character data:', error);
+    setErrorMessage('Failed to find a valid user. Please check the input and try again.');
+    return Promise.reject();
+
+  }
+};
 
 
   return(
@@ -143,7 +163,7 @@ useEffect(() => {
 
         <div className="search-container">
         <CharacterSearch onSearch={handleCharacterSearch} setErrorMessage={setErrorMessage} />
-
+        
 
         </div>
         {errorMessage && (
