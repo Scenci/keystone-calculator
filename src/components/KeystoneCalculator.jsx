@@ -1,7 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './KeystoneCalculator.css';
 
-const KeystoneCalculator = ({keyLevels, setKeyLevels, dungeons}) => {
+
+//Keystone Calculator takes in the dungeons for each season on component (page) load.
+//This is why MythicPlusCalcuator.jsx from dreadpl.us does not have this variable, but this one does.
+const KeystoneCalculator = ({ sortedRuns, dungeons }) => {
+
+  const [fortifiedRuns, setFortifiedRuns] = useState({});
+  const [tyrannicalRuns, setTyrannicalRuns] = useState({});
+
 
     //We need character information from Search to load the calculator.
     
@@ -9,6 +16,58 @@ const KeystoneCalculator = ({keyLevels, setKeyLevels, dungeons}) => {
     //console.log("dungeons in calculator: ",dungeons);
     //console.log("Character In Calculator: ",dungeons);
 
+    useEffect(() => {
+      const fortified = {};
+      const tyrannical = {};
+  
+      dungeons.forEach((dungeon) => {
+        const dungeonData = sortedRuns[dungeon];
+        if (dungeonData) {
+          fortified[dungeon] = dungeonData.bestRun && dungeonData.bestRun.affixes.includes('Fortified') ? dungeonData.bestRun.mythic_level : '';
+          tyrannical[dungeon] = dungeonData.bestRun && dungeonData.bestRun.affixes.includes('Tyrannical') ? dungeonData.bestRun.mythic_level : '';
+        } else {
+          fortified[dungeon] = '';
+          tyrannical[dungeon] = '';
+        }
+      });
+      setFortifiedRuns(fortified);
+      setTyrannicalRuns(tyrannical);
+    }, [sortedRuns, dungeons]);
+
+
+    const handleFortifiedInputChange = (dungeon, value) => {
+      const updatedRuns = { ...fortifiedRuns };
+    
+      if (value >= 1 && value <= 35) {
+        updatedRuns[dungeon] = value;
+        setError("");
+      } else if (value < 1) {
+        updatedRuns[dungeon] = 1;
+        setError("Please Input a Key Level value between 1 and 35");
+      } else if (value > 35) {
+        updatedRuns[dungeon] = 35;
+        setError("Please Input a Key Level value between 1 and 35");
+      }
+    
+      setFortifiedRuns(updatedRuns);
+    };
+    
+    const handleTyrannicalInputChange = (dungeon, value) => {
+      const updatedRuns = { ...tyrannicalRuns };
+    
+      if (value >= 1 && value <= 35) {
+        updatedRuns[dungeon] = value;
+        setError("");
+      } else if (value < 1) {
+        updatedRuns[dungeon] = 1;
+        setError("Please Input a Key Level value between 1 and 35");
+      } else if (value > 35) {
+        updatedRuns[dungeon] = 35;
+        setError("Please Input a Key Level value between 1 and 35");
+      }
+    
+      setTyrannicalRuns(updatedRuns);
+    };
 
     //Define Color Mapping TODO: Include all colors for RaiderIO Addon
     const scoreColorMapping = {
@@ -47,19 +106,64 @@ const KeystoneCalculator = ({keyLevels, setKeyLevels, dungeons}) => {
         return scoreRange ? scoreColorMapping[scoreRange] : 'white';
       };
 
+  
+      const calculateTimeBonus = (underPercentage) => {
+        var timeBonus = 5;
+        if(underPercentage >= 0.4){
+          return timeBonus;
+        } else if(underPercentage >= 0.2){
+          timeBonus = 5 * underPercentage / 0.4;
+          return timeBonus;
+        } else {
+            timeBonus = 5 * Math.min(underPercentage / 0.4 , 1);
+            return timeBonus;
+          }
+        };
+        
 
-
-
-
-
-
-
-
-    return (
-      <div></div>
-
-
-    );
+        return (
+          <div className="calculator-container">
+            <h2>Keystone Calculator</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Dungeon</th>
+                  <th>Fortified</th>
+                  <th>Tyrannical</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dungeons.map((dungeon) => (
+                  <tr key={dungeon}>
+                    <td>{dungeon}</td>
+                    <td>
+                      {/* Render input for Fortified */}
+                    <input
+                      type="number"
+                      min = "1"
+                      max = "35"
+                      value={fortifiedRuns[dungeon] || ''}
+                      onChange={(e) => handleFortifiedInputChange(dungeon, e.target.value)}
+                    />
+                    </td>
+                    <td>
+                      {/* Render input for Tyrannical */}
+                      <input
+                      type="number"
+                      min = "1"
+                      max = "35"
+                      value={tyrannicalRuns[dungeon] || ''}
+                      onChange={(e) => handleTyrannicalInputChange(dungeon, e.target.value)}
+                    />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {error && <p className="error">{error}</p>}
+          </div>
+        
+        );
 }
 
 export default KeystoneCalculator;

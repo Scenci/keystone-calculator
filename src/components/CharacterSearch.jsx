@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './CharacterSearch.css';
 
-const CharacterSearch = ({ onSearch }) => {
+const CharacterSearch = ({ onSearch, setSearchResults }) => {
   const [region, setRegion] = useState('us');
   const [server, setServer] = useState('');
   const [characterName, setCharacterName] = useState('');
@@ -16,15 +16,20 @@ const CharacterSearch = ({ onSearch }) => {
       return;
     }
     setErrorMessage('');
+    
     setIsSearching(true); // Set isSearching to true before starting the API request
+
     onSearch(region, server, characterName)
       .then(() => {
-        setIsSearching(false); // Set isSearching back to false when the request is successful
+        setIsSearching(false);
       })
       .catch(() => {
-        setIsSearching(false); // Set isSearching back to false when the request fails
+        setIsSearching(false);
       });
   };
+  
+
+
   
 
   return (

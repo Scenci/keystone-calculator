@@ -1,0 +1,18 @@
+.calculator-container {
+    background-color: #282c34;
+}
+.calculator-container h2 {
+    color: white;
+}
+
+.calculator-container tr{
+    color: white;
+    background-color: #282c34;
+}
+
+.error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 8px;
+  }
+  

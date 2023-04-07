@@ -8,18 +8,29 @@ import KeystoneCalculator from './components/KeystoneCalculator';
 
 
 function App() {
-
-  const [character, setCharacter] = useState([]);
+  //Contains { Character{...}, BestRuns{...}, AltRuns{...} } raw from API
   const [searchResults, setSearchResults] = useState([]);
-  const [affixes, setAffixes] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
+  //Contains the sorted (by dungeon) Best and Alt runs.
+  const [sortedRuns, setSortedRuns] = useState([]);
+  const [dungeonsData, setDungeonsData] = useState({});
+
+  //Contains only Character{...} from API
+  const [character, setCharacter] = useState([]);
+
+  //States to control the *current* Seasonal Information such as Affixes, Dungeons etc.
+  const [affixes, setAffixes] = useState([]); // May have issues with future seasons...
   const [seasons, setSeasons] = useState([]);
   const [currentSeason, setCurrentSeason] = useState();
   const [currentDungeons, setCurrentDungeons] = useState([]);
 
-  const [lastSearchedCharacter, setLastSearchedCharacter] = useState(null);
 
+  
+  //Important UX States.
+  const [isLoading, setIsLoading] = useState(true);
+
+  //Important Error Handling States
+  const [lastSearchedCharacter, setLastSearchedCharacter] = useState(null);
   const [errorMessage,setErrorMessage] = useState('');
 
 
@@ -35,6 +46,8 @@ function App() {
         
       } catch (error) {
         console.error("Error fetching affixes:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -51,6 +64,8 @@ function App() {
 
       } catch (error) {
         console.error("Error fetching static data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -96,28 +111,83 @@ useEffect(() => {
 
 //Fourth Hook to print the currentDungeons data
 useEffect(() => {
-  console.log("Updated current dungeons:", currentDungeons);
+  //console.log("Updated current dungeons:", currentDungeons);
   
 
 }, [currentDungeons]);
 
 useEffect(() => {
-  console.log("Search Results === Dungeon Data: ", searchResults);
-  console.log("Character: ",searchResults.character);
-  console.log("Best Runs: ", searchResults.mythic_plus_best_runs);
-  console.log("Alternate Runs: ", searchResults.mythic_plus_alternate_runs);
+  //console.log("Search Results === Dungeon Data: ", searchResults);
+  //console.log("Character: ",searchResults.character);
+  //console.log("Best Runs: ", searchResults.mythic_plus_best_runs);
+  //console.log("Alternate Runs: ", searchResults.mythic_plus_alternate_runs);
+
 }, [searchResults]);
 
 
+//========= Hooks End Here Code Begins Here ======================= Hooks End Here Code Begins Here ======================== Hooks End Here Code Begins Here ==============================================================
 
 
-/* Handle Character Search
-* 
-* 
-* 
-* 
-*
-*/ 
+const updateSortedRuns = (combinedData) => {
+  //console.log(combinedData);
+  const sortedRuns = sortRunsByDungeon(combinedData.mythic_plus_best_runs, combinedData.mythic_plus_alternate_runs);
+  setSortedRuns(sortedRuns);
+  console.log(sortedRuns);
+  // You can set this sortedRuns object to a new state if you want to use it later in your component
+};
+
+
+const sortRunsByDungeon = (bestRuns, alternateRuns) => {
+  let sortedRuns = {};
+
+  // Iterate over best runs and store them in the sortedRuns object
+  bestRuns.forEach((run) => {
+    const dungeonName = run.dungeon;
+    if (!sortedRuns[dungeonName]) {
+      sortedRuns[dungeonName] = {
+        bestRun: run,
+        alternateRun: null,
+      };
+    } else {
+      sortedRuns[dungeonName].bestRun = run;
+    }
+  });
+
+  // Iterate over alternate runs and store them in the sortedRuns object
+  alternateRuns.forEach((run) => {
+    const dungeonName = run.dungeon;
+    if (!sortedRuns[dungeonName]) {
+      sortedRuns[dungeonName] = {
+        bestRun: null,
+        alternateRun: run,
+      };
+    } else {
+      sortedRuns[dungeonName].alternateRun = run;
+    }
+  });
+
+  return sortedRuns;
+};
+
+//Dedicated Processing function to simply handling characterSearch.
+const processCharacterData = (characterData) => {
+  const combinedData = {
+    character: characterData,
+    mythic_plus_best_runs: characterData.mythic_plus_best_runs,
+    mythic_plus_alternate_runs: characterData.mythic_plus_alternate_runs,
+  };
+
+  // Update search results with the combined data
+  setSearchResults(combinedData);
+
+  // Update sorted runs
+  updateSortedRuns(combinedData);
+  
+  setErrorMessage("");
+};
+
+
+// Handle Character Search
 const handleCharacterSearch = async (region, server, characterName) => {
 
   const characterKey = `${region}-${server}-${characterName.toLowerCase()}`;
@@ -132,17 +202,10 @@ const handleCharacterSearch = async (region, server, characterName) => {
       `https://raider.io/api/v1/characters/profile?region=${region}&realm=${server}&name=${characterName}&fields=mythic_plus_scores_by_season%3Acurrent%2Cmythic_plus_best_runs%3Aall%2Cmythic_plus_alternate_runs%3Aall`
     );
 
-    const combinedData = {
-      character: result.data,
-      mythic_plus_best_runs: result.data.mythic_plus_best_runs,
-      mythic_plus_alternate_runs: result.data.mythic_plus_alternate_runs,
-    };
-
-    setSearchResults(combinedData);
+    processCharacterData(result.data);
+    
     setLastSearchedCharacter(characterKey);
 
-    setErrorMessage("");
-    
     return Promise.resolve();
 
   } catch (error) {
@@ -162,7 +225,11 @@ const handleCharacterSearch = async (region, server, characterName) => {
         {affixes.length > 0 && <div className="affix-container"><AffixBanner affixes={affixes}/></div>}
 
         <div className="search-container">
-        <CharacterSearch onSearch={handleCharacterSearch} setErrorMessage={setErrorMessage} />
+        <CharacterSearch 
+        onSearch={handleCharacterSearch} 
+        setErrorMessage={setErrorMessage}
+        setSearchResults={searchResults}
+         />
         
 
         </div>
@@ -173,12 +240,12 @@ const handleCharacterSearch = async (region, server, characterName) => {
         )}
 
 
-        <div className="keystone-calculator-container">
-          <KeystoneCalculator
-
-          dungeons={currentDungeons.map(dungeon => dungeon.short_name)}
-          />
-        </div>
+    <div className="keystone-calculator-container">
+      <KeystoneCalculator
+        sortedRuns={sortedRuns}
+        dungeons={currentDungeons.map((dungeon) => dungeon.short_name)}
+      />
+    </div>
       </div>
 
     </div>
