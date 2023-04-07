@@ -5,124 +5,64 @@ import AffixBanner from './components/AffixBanner';
 import CharacterSearch from './components/CharacterSearch';
 //import KeystoneCalculator from './components/KeytoneCalculator';
 
+import useCharacterSearch from './hooks/useCharacterSearch';
+import useSortedRuns from './hooks/useSortedRuns';
+import useAffixes from './hooks/useAffixes';
+import useStaticData from './hooks/useStaticData';
 
 function App() {
+  //Contains { Character{...}, BestRuns{...}, AltRuns{...} } raw from API
 
+  //Contains the sorted (by dungeon) Best and Alt runs.
+  const [dungeonsData, setDungeonsData] = useState({});
+
+  //Contains only Character{...} from API
   const [character, setCharacter] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
-  const [affixes, setAffixes] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const [seasons, setSeasons] = useState([]);
-  const [dungeons, setDungeons] = useState([]);
+  //States to control the *current* Seasonal Information such as Affixes, Dungeons etc.
 
+  const { affixes, isLoading: isLoadingAffixes } = useAffixes();
+  const { seasons, currentSeason, currentDungeons, isLoading: isLoadingStaticData } = useStaticData();
 
+//========= Hooks End Here Code Begins Here ======================= Hooks End Here Code Begins Here ======================== Hooks End Here Code Begins Here ==============================================================
 
-  useEffect(() => {
-    document.title="Keystone Calculator";
-
-    //TODO: Include Other Region Affixes
-    const fetchAffixes = async () => {
-      try {
-        const response = await axios.get('https://raider.io/api/v1/mythic-plus/affixes?region=us&locale=en');
-        setAffixes(response.data.title);
-        
-      } catch (error) {
-        console.error("Error fetching affixes:", error);
-      }
-    };
-
-    const fetchStaticData = async () => {
-      try {
-        const response = await axios.get('https://raider.io/api/v1/mythic-plus/static-data?expansion_id=9');
-
-        //We do not care about response.data.dungeons because that only accounts for Dragonflight dungeons. 
-        //We care about M+ Seasonal dungeons which is stored under the season object.
-        //We use season short_name to identify the season and season start to know when the current season is.
-        setSeasons(response.data.seasons);
-        
-        console.log("ALL SEASONS:" ,response.data.seasons);
-
-      } catch (error) {
-        console.error("Error fetching static data:", error);
-      }
-    };
-
-    fetchAffixes();
-    fetchStaticData();
-
-    const getCurrentSeason = (seasons) => {
-      const currentTime = new Date();
-      for (let season of seasons) {
-        if (season.starts.us === null) {
-          continue;
-        }
-        const start = new Date(season.starts.us);
-        const end = season.ends.us ? new Date(season.ends.us) : null;
-    
-        if (currentTime >= start && (end === null || currentTime <= end)) {
-          return season;
-        }
-      }
-    
-      return null;
-    };
-
-    const activeSeason = getCurrentSeason(seasons);
-    if (activeSeason) {
-      console.log("The active season is:", activeSeason.name);
-    } else {
-      console.log("There is no active season.");
-    }
-  
-
-
-}, []);
-
-
-
-
-
-  
-
-  const handleCharacterSearch = async (region, server, characterName) => {
-    try {
-      const result = await axios(
-        `https://raider.io/api/v1/characters/profile?region=${region}&realm=${server}&name=${characterName}&fields=mythic_plus_scores_by_season%3Acurrent%2Cmythic_plus_best_runs%3Aall%2Cmythic_plus_alternate_runs%3Aall`
-      );
-
-      const combinedData = {
-        character: result.data,
-        mythic_plus_best_runs: result.data.mythic_plus_best_runs,
-        mythic_plus_alternate_runs: result.data.mythic_plus_alternate_runs,
-      };
-      console.log("combined data: ",combinedData);
-
-      setSearchResults((prevResults) => [...prevResults, combinedData]);
-    } catch (error) {
-      console.error('Error fetching character data:', error);
-    }
-  };
-
+  const {handleCharacterSearch, setErrorMessage, errorMessage, searchResults} = useCharacterSearch();
+  const sortedRuns = useSortedRuns(searchResults);
 
   return(
     <div className="page-container">
       <div className="App">
-      
-        {affixes.length > 0 && <div className="affix-container"><AffixBanner affixes={affixes}/></div>}
-
-        <div className="search-container">
-          <CharacterSearch onSearch={handleCharacterSearch} />
-        </div>
-        <div className="keystone-calculator-container">
-
-
-        </div>
+        {!isLoadingAffixes && affixes.length > 0 && <div className="affix-container"><AffixBanner affixes={affixes}/></div>}
+        
+        {!isLoadingStaticData && (
+          <div className="search-container">
+            <CharacterSearch 
+              onSearch={handleCharacterSearch} 
+              setErrorMessage={setErrorMessage}
+              setSearchResults={searchResults}
+            />
+          </div>
+        )}
+  
+        {errorMessage && (
+          <div className="error-message">
+            <p>{errorMessage}</p>
+          </div>
+        )}
+  
+        {!isLoadingStaticData && currentDungeons.length > 0 && (
+          <div className="keystone-calculator-container">
+            <KeystoneCalculator
+              sortedRuns={sortedRuns}
+              dungeons={currentDungeons.map((dungeon) => dungeon.short_name)}
+            />
+          </div>
+        )}
+  
       </div>
-
     </div>
-
   );
+  
 } 
 export default App;
 

@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.error-message {
+  color: red;
+  margin-top: 12px;
+}
+
+.keystone-calculator-container {
+  background-color: #282c34;
+}
