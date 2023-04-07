@@ -1,15 +1,36 @@
 import React, { useState } from 'react';
 import './CharacterSearch.css';
 
-const CharacterSearch = ({ onSearch }) => {
+const CharacterSearch = ({ onSearch, setSearchResults }) => {
   const [region, setRegion] = useState('us');
   const [server, setServer] = useState('');
   const [characterName, setCharacterName] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch(region, server, characterName);
+    if (!server || !characterName) {
+      setErrorMessage('Please fill in all the required fields.');
+      return;
+    }
+    setErrorMessage('');
+    
+    setIsSearching(true); // Set isSearching to true before starting the API request
+
+    onSearch(region, server, characterName)
+      .then(() => {
+        setIsSearching(false);
+      })
+      .catch(() => {
+        setIsSearching(false);
+      });
   };
+  
+
+
+  
 
   return (
     <div className="character-search">
@@ -43,9 +64,12 @@ const CharacterSearch = ({ onSearch }) => {
           onChange={(e) => setCharacterName(e.target.value)}
           placeholder="Enter Character Name"
         />
-
-        <button type="submit">Search</button>
+       
+      <button type="submit" disabled={isSearching}>Search</button>
       </form>
+      <div className="error-container">
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+        </div>
     </div>
   );
 };

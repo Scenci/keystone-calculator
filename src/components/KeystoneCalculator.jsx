@@ -1,20 +1,73 @@
-import React, { useState } from React;
+import React, { useState, useEffect } from 'react';
 import './KeystoneCalculator.css';
 
-const KeystoneCalculator = ({keyLevels, setKeyLevels}) => {
-    const [error, setError] = useState("");
 
-    //Get Dungeon List for Current Season
-    const dungeons = [
-        "SBG",
-        "COS",
-        "TJS",
-        "HOV",
-        "AA",
-        "AV",
-        "NO",
-        "RLP",
-      ];
+//Keystone Calculator takes in the dungeons for each season on component (page) load.
+//This is why MythicPlusCalcuator.jsx from dreadpl.us does not have this variable, but this one does.
+const KeystoneCalculator = ({ sortedRuns, dungeons }) => {
+
+  const [fortifiedRuns, setFortifiedRuns] = useState({});
+  const [tyrannicalRuns, setTyrannicalRuns] = useState({});
+
+
+    //We need character information from Search to load the calculator.
+    
+    const [error, setError] = useState("");
+    //console.log("dungeons in calculator: ",dungeons);
+    //console.log("Character In Calculator: ",dungeons);
+
+    useEffect(() => {
+      const fortified = {};
+      const tyrannical = {};
+  
+      dungeons.forEach((dungeon) => {
+        const dungeonData = sortedRuns[dungeon];
+        if (dungeonData) {
+          fortified[dungeon] = dungeonData.bestRun && dungeonData.bestRun.affixes.includes('Fortified') ? dungeonData.bestRun.mythic_level : '';
+          tyrannical[dungeon] = dungeonData.bestRun && dungeonData.bestRun.affixes.includes('Tyrannical') ? dungeonData.bestRun.mythic_level : '';
+        } else {
+          fortified[dungeon] = '';
+          tyrannical[dungeon] = '';
+        }
+      });
+      setFortifiedRuns(fortified);
+      setTyrannicalRuns(tyrannical);
+    }, [sortedRuns, dungeons]);
+
+
+    const handleFortifiedInputChange = (dungeon, value) => {
+      const updatedRuns = { ...fortifiedRuns };
+    
+      if (value >= 1 && value <= 35) {
+        updatedRuns[dungeon] = value;
+        setError("");
+      } else if (value < 1) {
+        updatedRuns[dungeon] = 1;
+        setError("Please Input a Key Level value between 1 and 35");
+      } else if (value > 35) {
+        updatedRuns[dungeon] = 35;
+        setError("Please Input a Key Level value between 1 and 35");
+      }
+    
+      setFortifiedRuns(updatedRuns);
+    };
+    
+    const handleTyrannicalInputChange = (dungeon, value) => {
+      const updatedRuns = { ...tyrannicalRuns };
+    
+      if (value >= 1 && value <= 35) {
+        updatedRuns[dungeon] = value;
+        setError("");
+      } else if (value < 1) {
+        updatedRuns[dungeon] = 1;
+        setError("Please Input a Key Level value between 1 and 35");
+      } else if (value > 35) {
+        updatedRuns[dungeon] = 35;
+        setError("Please Input a Key Level value between 1 and 35");
+      }
+    
+      setTyrannicalRuns(updatedRuns);
+    };
 
     //Define Color Mapping TODO: Include all colors for RaiderIO Addon
     const scoreColorMapping = {
@@ -36,56 +89,81 @@ const KeystoneCalculator = ({keyLevels, setKeyLevels}) => {
         '1545.0': '#5ca5a5',
         '0.0': 'white',
       };
-    /**
-     * Generates the initial state for the under percentage of dungeons.
-     *
-     * The initial state is an object where each dungeon is a key, and its value is
-     * another object containing keys for each under percentage (e.g., 0, 1) and their
-     * respective default values (e.g., 0.05).
-     *
-     * @returns {Object} The initial state object for under percentages of dungeons.
-     * @example
-     * {
-     *   "Dungeon 1": { 0: 0.05, 1: 0.05 },
-     *   "Dungeon 2": { 0: 0.05, 1: 0.05 },
-     *   
-     * }
-     */
-      const generateInitialUnderPercentageState = () => {
-        const initialState = {};
 
+      //For the "Normal Mode" of the calculator, we set all underPercentage Values to 5%
+      const generateInitialUnderPercentageState = () => {
+      const initialState = {};
         dungeons.forEach((dungeon) => {
           initialState[dungeon] = { 0: 0.05, 1: 0.05 };
         });
-      
         return initialState;
       };
     
-
       const [underPercentageState, setUnderPercentageState] = useState(generateInitialUnderPercentageState());
 
+      const getScoreColor = (score) => {
+        const scoreRange = Object.keys(scoreColorMapping).find((range) => score > parseFloat(range));
+        return scoreRange ? scoreColorMapping[scoreRange] : 'white';
+      };
 
+  
+      const calculateTimeBonus = (underPercentage) => {
+        var timeBonus = 5;
+        if(underPercentage >= 0.4){
+          return timeBonus;
+        } else if(underPercentage >= 0.2){
+          timeBonus = 5 * underPercentage / 0.4;
+          return timeBonus;
+        } else {
+            timeBonus = 5 * Math.min(underPercentage / 0.4 , 1);
+            return timeBonus;
+          }
+        };
+        
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    return (
-
-
-    );
+        return (
+          <div className="calculator-container">
+            <h2>Keystone Calculator</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Dungeon</th>
+                  <th>Fortified</th>
+                  <th>Tyrannical</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dungeons.map((dungeon) => (
+                  <tr key={dungeon}>
+                    <td>{dungeon}</td>
+                    <td>
+                      {/* Render input for Fortified */}
+                    <input
+                      type="number"
+                      min = "1"
+                      max = "35"
+                      value={fortifiedRuns[dungeon] || ''}
+                      onChange={(e) => handleFortifiedInputChange(dungeon, e.target.value)}
+                    />
+                    </td>
+                    <td>
+                      {/* Render input for Tyrannical */}
+                      <input
+                      type="number"
+                      min = "1"
+                      max = "35"
+                      value={tyrannicalRuns[dungeon] || ''}
+                      onChange={(e) => handleTyrannicalInputChange(dungeon, e.target.value)}
+                    />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {error && <p className="error">{error}</p>}
+          </div>
+        
+        );
 }
 
 export default KeystoneCalculator;

@@ -1,5 +1,5 @@
 
-import { getCurrentSeason } from './App.js';
+import { getCurrentSeason } from './App';
 
 describe('getCurrentSeason', () => {
   const mockSeasons = [
