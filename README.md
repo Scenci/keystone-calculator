@@ -2,7 +2,23 @@
 =======
 
 This will be the greatest, bestest, most accurate and useful Mythic+ Calculator on the internet, so help me Dennis.
-# Getting Started with Create React App
+
+This calculator was made in hopes that it will be leveraged by the compeative WoW Mythic+ Community. 
+I also wanted to teach myself React with GPT-assistance.
+
+Keystone Calculator was never meant to 
+
+Special Thanks to the following people for helping me design/build/test:
+
+Arcae
+Connor R
+Yokoyama
+Cerodian
+Bigmayex
+Jazzhead
+
+
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

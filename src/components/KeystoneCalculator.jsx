@@ -21,14 +21,14 @@ const KeystoneCalculator = ({ sortedRuns, dungeons, searchResults }) => {
 
     //To eliminate the need for this manual conversion, we need to return the full Dungeon Name from sortedRuns()...
     const dungeonShortNameToLongName = {
-      'AA': "Algeth'ar Academy",
-      'COS':"Court of Stars",
-      'HOV':"Halls of Valor" ,
-      'RLP':"Ruby Life Pools",
-      'SBG':"Shadowmoon Burial Grounds",
-      'TJS':"Temple of the Jade Serpent",
-      'AV' : "The Azure Vault",
-      'NO' : "The Nokhud Offensives",
+      'AA'  : "Algeth'ar Academy",
+      'COS' : "Court of Stars",
+      'HOV' : "Halls of Valor" ,
+      'RLP' : "Ruby Life Pools",
+      'SBG' : "Shadowmoon Burial Grounds",
+      'TJS' : "Temple of the Jade Serpent",
+      'AV'  : "The Azure Vault",
+      'NO'  : "The Nokhud Offensives",
     };
 
     useEffect(() => {
