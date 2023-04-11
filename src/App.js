@@ -18,16 +18,16 @@ function App() {
   const [dungeonsData, setDungeonsData] = useState({});
 
   //Contains only Character{...} from API
-  const [character, setCharacter] = useState([]);
+  const [character, setCharacter] = useState({});
 
 
+  //Hooks: Returns these variables
   const { affixes, isLoading: isLoadingAffixes } = useAffixes();
   const { seasons, currentSeason, currentDungeons, isLoading: isLoadingStaticData } = useStaticData();
-
-//========= Hooks End Here Code Begins Here ======================= Hooks End Here Code Begins Here ======================== Hooks End Here Code Begins Here ==============================================================
-
   const {handleCharacterSearch, setErrorMessage, errorMessage, searchResults} = useCharacterSearch();
   const sortedRuns = useSortedRuns(searchResults);
+
+
 
   return(
     <div className="page-container">

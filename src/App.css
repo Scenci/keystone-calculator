@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #282a36;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -43,5 +43,9 @@
 }
 
 .keystone-calculator-container {
-  background-color: #282c34;
+  background-color: #282a36;
+}
+
+.search-container{
+  background-color: #282a36;
 }

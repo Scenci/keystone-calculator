@@ -4,6 +4,7 @@ import axios from 'axios';
 const useCharacterSearch = () => {
 
     const [searchResults, setSearchResults] = useState([]);
+
     //Important Error Handling States
     const [lastSearchedCharacter, setLastSearchedCharacter] = useState(null);
     const [errorMessage,setErrorMessage] = useState('');
@@ -18,7 +19,6 @@ const useCharacterSearch = () => {
     
         // Update search results with the combined data
         setSearchResults(combinedData);
-
         
         setErrorMessage("");
     };
@@ -41,8 +41,6 @@ const useCharacterSearch = () => {
         );
     
         processCharacterData(result.data);
-        
-        
         setLastSearchedCharacter(characterKey);
     
         return Promise.resolve();
@@ -55,6 +53,7 @@ const useCharacterSearch = () => {
         }
     };
 
+    //This is how we communicate back to App.js via Hooks
     return {handleCharacterSearch, setErrorMessage, errorMessage, searchResults}
 
 }
