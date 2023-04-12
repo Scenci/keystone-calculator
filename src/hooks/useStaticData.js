@@ -43,7 +43,7 @@ const useStaticData = () => {
     if (seasons.length > 0) {
         const currentSeason = getCurrentSeason(seasons)
         setCurrentSeason(currentSeason);
-        setCurrentDungeons(currentSeason.dungeons)
+        setCurrentDungeons(currentSeason.dungeons);
     }
   }, [seasons]);
 

@@ -27,7 +27,10 @@ function App() {
   const {handleCharacterSearch, setErrorMessage, errorMessage, searchResults} = useCharacterSearch();
   const sortedRuns = useSortedRuns(searchResults);
 
+  console.log("currentDungeons: ",currentDungeons);
 
+  //Covnvert currentDungeons into object with just names and shortnames then pass that as the prop?
+  
 
   return(
     <div className="page-container">
@@ -54,7 +57,10 @@ function App() {
           <div className="keystone-calculator-container">
             <KeystoneCalculator
               sortedRuns={sortedRuns}
-              seasonDungeons={currentDungeons}
+              seasonDungeonsNames={currentDungeons.map(dungeon => dungeon.name)}
+              seasonDungeonsShortNames={currentDungeons.map(dungeon => dungeon.short_name)}
+
+           
             />
           </div>
         )}

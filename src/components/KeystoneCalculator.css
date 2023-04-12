@@ -1,0 +1,39 @@
+.keystone-calculator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .input-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .form-row {
+    display: contents;
+  }
+  
+  .column-tyrannical,
+  .column-fortified,
+  .column-scores {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dungeon-inputs {
+    width: 100%;
+  }
+  
+  input {
+    width: 60px;
+  }
+  
+  .total-score {
+    margin-top: 16px;
+    font-weight: bold;
+  }
+  
