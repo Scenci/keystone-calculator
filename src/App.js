@@ -54,7 +54,7 @@ function App() {
           <div className="keystone-calculator-container">
             <KeystoneCalculator
               sortedRuns={sortedRuns}
-              dungeons={currentDungeons.map((dungeon) => dungeon.short_name)}
+              seasonDungeons={currentDungeons}
             />
           </div>
         )}

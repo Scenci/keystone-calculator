@@ -4,7 +4,7 @@ import {useMemo} from 'react';
 const getSortedRuns = (combinedData) => {
     //console.log(combinedData);
     const sortedRuns = sortRunsByDungeon(combinedData.mythic_plus_best_runs, combinedData.mythic_plus_alternate_runs);
-    console.log(sortedRuns);
+    //console.log(sortedRuns);
     return sortedRuns;
     
     // You can set this sortedRuns object to a new state if you want to use it later in your component
