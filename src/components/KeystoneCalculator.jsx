@@ -249,7 +249,7 @@ const renderInputPairs = () => {
 return (
   <div className="keystone-calculator">
     <h2>
-      <u>Mythic Plus Calculator</u>
+      <u>Keystone Calculator</u>
     </h2>
     {rawData && rawData.character && (
   <button onClick={() => handleLoadData(rawData)} className="load-data-button">
@@ -261,7 +261,7 @@ return (
     {renderInputPairs()}
     {error && <p className="error-message">{error}</p>}
     <div>
-      <h3 style={{ color: 'white' }}>Approximate Mythic Plus Score:
+      <h3 style={{ color: 'white' }}>Approximate Mythic+ Score:
       <span 
         style={{ color: isNaN(calculateTotalMPS()) ? '#ed5b45' : getScoreColor(calculateTotalMPS()) }}> {calculateTotalMPS()}</span></h3>
     </div>
