@@ -191,57 +191,57 @@ const renderInputPairs = () => {
   return (
     <div className="dungeon-grid">
       <div className="header-row">
-        <div className="dungeon-name"></div>
-        <div className="tyrannical-column">
-          <label>Fortified&#8239;&#8239;&thinsp;&thinsp;&thinsp;&thinsp;&#8239;&#8239;&#8239;</label>
-        </div>
+        <div className="dungeon-name" style={{ textDecoration: 'underline' }}>Dungeon</div>
         <div className="fortified-column">
+          <label>Fortified</label>
+        </div>
+        <div className="tyrannical-column">
           <label>Tyrannical</label>
         </div>
-        <div className="sum-display"></div>
+        <div className="sum-display" style={{ textDecoration: 'underline' }}>Pair Score</div>
       </div>
       {seasonDungeonsShortNames.map((dungeon, i) => (
         <div key={i} className="dungeon-row">
           <div className="dungeon-name">{dungeon}</div>
           <div className="fortified-column">
-        <button className="toggle-button" onClick={() => handleToggleClick(dungeon, 1)}>
-        {getCustomText((UPState[dungeon] && UPState[dungeon][1]) || 0.05)}
-        </button>
+            <button className="toggle-button" onClick={() => handleToggleClick(dungeon, 1)}>
+              {getCustomText((UPState[dungeon] && UPState[dungeon][1]) || 0.05)}
+            </button>
             <input
               id={`input-${i + 8}`}
               type="number"
-              value={keyLevels[dungeon] ? keyLevels[dungeon][1] : ''}
+              value={keyLevels[dungeon] ? keyLevels[dungeon][1] : ""}
               onChange={(e) => handleInputChange(dungeon, 1, e.target.value)}
               className="small-input"
             />
           </div>
           <div className="tyrannical-column">
-        <button className="toggle-button" onClick={() => handleToggleClick(dungeon, 0)}>
-        {getCustomText((UPState[dungeon] && UPState[dungeon][0]) || 0.05)}
-        </button>
-        <input
+            <button className="toggle-button" onClick={() => handleToggleClick(dungeon, 0)}>
+              {getCustomText((UPState[dungeon] && UPState[dungeon][0]) || 0.05)}
+            </button>
+            <input
               id={`input-${i}`}
               type="number"
-              value={keyLevels[dungeon] ? keyLevels[dungeon][0] : ''}
+              value={keyLevels[dungeon] ? keyLevels[dungeon][0] : ""}
               onChange={(e) => handleInputChange(dungeon, 0, e.target.value)}
               className="small-input"
             />
           </div>
-          
           <div className="sum-display">
-        ={" "}
-        {calculateKeyScore(
-          keyLevels[dungeon] ? keyLevels[dungeon][0] : "",
-          keyLevels[dungeon] ? keyLevels[dungeon][1] : "",
-          UPState[dungeon] ? parseFloat(UPState[dungeon][0]) : 0.05,
-          UPState[dungeon] ? parseFloat(UPState[dungeon][1]) : 0.05
-        )}
-      </div>
+            ={" "}
+            {calculateKeyScore(
+              keyLevels[dungeon] ? keyLevels[dungeon][0] : "",
+              keyLevels[dungeon] ? keyLevels[dungeon][1] : "",
+              UPState[dungeon] ? parseFloat(UPState[dungeon][0]) : 0.05,
+              UPState[dungeon] ? parseFloat(UPState[dungeon][1]) : 0.05
+            )}
+          </div>
         </div>
       ))}
     </div>
   );
 };
+
 
   
 
