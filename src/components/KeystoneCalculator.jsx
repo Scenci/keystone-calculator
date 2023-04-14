@@ -25,22 +25,6 @@ const KeystoneCalculator = ({ rawData, seasonDungeonsShortNames, keyLevels, setK
       return acc;
     }, {});
 
-<<<<<<< HEAD
-    //console.log(newKeyLevels);
-=======
-    //To eliminate the need for this manual conversion, we need to return the full Dungeon Name from sortedRuns()...
-    const dungeonShortNameToLongName = {
-      'AA'  : "Algeth'ar Academy",
-      'COS' : "Court of Stars",
-      'HOV' : "Halls of Valor" ,
-      'RLP' : "Ruby Life Pools",
-      'SBG' : "Shadowmoon Burial Grounds",
-      'TJS' : "Temple of the Jade Serpent",
-      'AV'  : "The Azure Vault",
-      'NO'  : "The Nokhud Offensives",
-    };
->>>>>>> 8e08ade96514f03c6892a72f02af76737de4933f
-
     setKeyLevels(newKeyLevels);
   };
 
