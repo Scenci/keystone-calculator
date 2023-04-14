@@ -28,6 +28,13 @@ h2 {
   cursor: pointer;
 }
 
+.load-data-button:hover{
+  transition: .1s;
+  background-color: #007bff9d;
+  box-shadow: 0 0 0 1px #007bff9d;
+
+}
+
 .dungeon-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -71,6 +78,13 @@ h2 {
   border: none;
   border-radius: 30px;
   cursor: pointer;
+}
+
+.toggle-button:hover{
+  transition: .1s;
+  background-color: #007bff9d;
+  box-shadow: 0 0 0 1px #007bff9d;
+
 }
 
 .small-input {

@@ -198,7 +198,7 @@ const renderInputPairs = () => {
         <div className="tyrannical-column">
           <label>Tyrannical</label>
         </div>
-        <div className="sum-display" style={{ textDecoration: 'underline' }}>Pair Score</div>
+        <div className="sum-display" style={{ textDecoration: 'underline' }}>Dungeon Score</div>
       </div>
       {seasonDungeonsShortNames.map((dungeon, i) => (
         <div key={i} className="dungeon-row">
