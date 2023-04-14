@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "KeystoneCalculator",
+  "name": "Keystone Calculator",
   "icons": [
     {
       "src": "icons8-calculator-64.png",
@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "icons8-calculator-64.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "icons8-calculator-64.png",
       "type": "image/png",
       "sizes": "512x512"
     }
