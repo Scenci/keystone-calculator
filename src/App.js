@@ -16,6 +16,7 @@ function App() {
 
   //Contains the sorted (by dungeon) Best and Alt runs.
   const [dungeonsData, setDungeonsData] = useState({});
+  const [keyLevels, setKeyLevels] = useState({});
 
   //Contains only Character{...} from API
   const [character, setCharacter] = useState({});
@@ -27,7 +28,7 @@ function App() {
   const {handleCharacterSearch, setErrorMessage, errorMessage, searchResults} = useCharacterSearch();
   const sortedRuns = useSortedRuns(searchResults);
 
-  console.log("currentDungeons: ",currentDungeons);
+  //console.log("currentDungeons: ",currentDungeons);
 
   //Covnvert currentDungeons into object with just names and shortnames then pass that as the prop?
   
@@ -56,9 +57,11 @@ function App() {
         {!isLoadingStaticData && currentDungeons.length > 0 && (
           <div className="keystone-calculator-container">
             <KeystoneCalculator
-              sortedRuns={sortedRuns}
-              seasonDungeonsNames={currentDungeons.map(dungeon => dungeon.name)}
+              
+              rawData={searchResults}
               seasonDungeonsShortNames={currentDungeons.map(dungeon => dungeon.short_name)}
+              keyLevels={keyLevels} 
+              setKeyLevels={setKeyLevels}
 
            
             />

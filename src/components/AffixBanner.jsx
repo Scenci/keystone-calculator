@@ -4,19 +4,19 @@ import './AffixBanner.css';
 //TODO: Affixes will be variable by season. This needs to change.
 const affixColorMapping = {
     //Alternating by Week
-    'Fortified': '#00FFCE',
-    'Tyrannical': '#00FFCE',
+    'Fortified': '#F07900',
+    'Tyrannical': '#F07900',
 
     //Easy
     'Volcanic': '#3dff00',
     'Storming': '#3dff00',
+    'Bolstering': '#3dff00',
 
     //Medium
-    'Explosive': '#Ffa800',
-    'Spiteful': '#Ffa800',
-    'Bolstering': '#Ffa800',
-    'Grievous': '#Ffa800',
-    'Bursting': '#Ffa800',
+    'Explosive': '#F07900',
+    'Spiteful': '#F07900',
+    'Grievous': '#F07900',
+    'Bursting': '#F07900',
 
     //Hard
     'Raging': '##FF0037',

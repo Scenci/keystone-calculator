@@ -1,39 +1,104 @@
 .keystone-calculator {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .input-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 8px;
-    width: 100%;
-    max-width: 500px;
-  }
-  
-  .form-row {
-    display: contents;
-  }
-  
-  .column-tyrannical,
-  .column-fortified,
-  .column-scores {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .dungeon-inputs {
-    width: 100%;
-  }
-  
-  input {
-    width: 60px;
-  }
-  
-  .total-score {
-    margin-top: 16px;
-    font-weight: bold;
-  }
-  
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 20px;
+  margin-top: 1.5rem;
+  background-color: #1c1c1c;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.load-data-button {
+  display: block;
+  margin: 0 auto 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.dungeon-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.header-row,
+.dungeon-row {
+  display: contents;
+}
+
+.dungeon-name {
+  grid-column: 1 / span 1;
+  padding: 10px;
+  background-color: #333;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.tyrannical-column,
+.fortified-column {
+  position: relative;
+  grid-column: auto / span 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-button {
+  position: absolute;
+  left: 2px;
+  top: 8px;
+  width: 25px;
+  height: 20px;
+  background-color: #007bff;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.small-input {
+  width: 50%;
+  height: 26px;
+  padding: 0 5px;
+  margin-left: 5px;
+  font-size: 14px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  background-color: #222;
+  color: white;
+  text-align: center;
+}
+
+.sum-display {
+  grid-column: 4 / span 1;
+  padding: 10px;
+  background-color: #333;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.error-message {
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #ed5b45;
+}
