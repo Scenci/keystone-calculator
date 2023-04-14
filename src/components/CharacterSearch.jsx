@@ -9,6 +9,13 @@ const CharacterSearch = ({ onSearch, setSearchResults }) => {
   const [errorMessage, setErrorMessage] = useState('');
   
 
+  const sanitizeInput = (input) => {
+    return input
+      .toLowerCase()
+      .replace(/[^a-z0-9 -]/g, '')
+      .replace(/\s+/g, '-');
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!server || !characterName) {
@@ -16,10 +23,13 @@ const CharacterSearch = ({ onSearch, setSearchResults }) => {
       return;
     }
     setErrorMessage('');
-    
-    setIsSearching(true); // Set isSearching to true before starting the API request
 
-    onSearch(region, server, characterName)
+    const sanitizedServer = sanitizeInput(server);
+    const sanitizedCharacterName = sanitizeInput(characterName);
+
+    setIsSearching(true);
+
+    onSearch(region, sanitizedServer, sanitizedCharacterName)
       .then(() => {
         setIsSearching(false);
       })
@@ -27,9 +37,6 @@ const CharacterSearch = ({ onSearch, setSearchResults }) => {
         setIsSearching(false);
       });
   };
-  
-
-
   
 
   return (
