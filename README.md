@@ -12,12 +12,12 @@ You can contact me at dreadmythicplus@gmail.com
 
 Special Thanks to the following people for helping me design/build/test:
 
-Arcae
-Connor R
-Yokoyama
-Cerodian
-Bigmayex
-Jazzhead
+Arcae,
+Connor R,
+Yokoyama,
+Cerodian,
+Bigmayex,
+Jazzhead,
 
 
 
