@@ -1,0 +1,52 @@
+.instructions {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    position: flex;
+    max-width: 300px;
+    padding: 20px;
+    margin-top: 30px;
+    margin-left: 15 rem;
+    background-color: #1c1c1c;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  .instructions h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+  
+  .instructions p {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    text-align: left;
+  }
+  
+  
+  .dummy-toggle-button {
+    top: 8px;
+    width: 24px;
+    height: 20px;
+    background-color: #007bff;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+    
+  .negative-dummy-toggle-button {
+    top: 8px;
+    width: 24px;
+    height: 20px;
+    background-color: red;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+  }

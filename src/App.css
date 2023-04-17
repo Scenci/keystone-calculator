@@ -49,3 +49,43 @@
 .search-container{
   background-color: #282a36;
 }
+
+.instructions-container {
+  position: absolute;
+  left: -400px; /* Adjust this value to control the distance from the KeystoneCalculator component */
+}
+
+.calculator-content {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  position: relative;
+}
+
+.info-icon {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 32px;
+  left: 10px;
+  z-index: 9999;
+  transition: .3s;
+}
+
+.info-icon:hover{ 
+  transform: scale(1.2);
+}
+
+.calculator-wrapper {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.components-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align the top of both components */
+  gap: 2rem; /* Adjust this value to control the space between the components */
+  position: relative;
+}

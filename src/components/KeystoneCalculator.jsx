@@ -56,7 +56,7 @@ const KeystoneCalculator = ({ rawData, seasonDungeonsShortNames, keyLevels, setK
     '1785.0': '#4787c4',
     '1665.0': '#5496b5',
     '1545.0': '#5ca5a5',
-    '0.0': 'white',
+    '0.0': 'white'
   };
 
   const generateInitialUPState = () => {

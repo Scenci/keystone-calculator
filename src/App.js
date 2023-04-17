@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
+
+import infoIcon from './assets/information.png';
 
 import AffixBanner from './components/AffixBanner';
 import CharacterSearch from './components/CharacterSearch';
+import Instructions from './components/Instructions';
 import KeystoneCalculator from './components/KeystoneCalculator';
 import HeaderBanner from './components/HeaderBanner';
 import Footer from './components/Footer';
@@ -13,10 +16,14 @@ import useAffixes from './hooks/useAffixes';
 import useStaticData from './hooks/useStaticData';
 
 
+
+
 function App() {
 
   //The keyLevels are set by the API return and combinedData
   const [keyLevels, setKeyLevels] = useState({});
+  const [showInstructions, setShowInstructions] = useState(false);
+
 
   //Contains only Character{...} from API - Could be used in future builds
   const [character, setCharacter] = useState({});
@@ -53,17 +60,36 @@ function App() {
             <p>{errorMessage}</p>
           </div>
         )}
-  
+      <div className="calculator-wrapper">
+        <div className="calculator-content">
+          <img
+            className="info-icon"
+            src={infoIcon}
+            alt="Toggle Instructions"
+            onClick={() => setShowInstructions(!showInstructions)}
+            style={{ cursor: 'pointer' }}
+          />
+          <div className="components-container">
+          {showInstructions && (
+            <div className="instructions-container">
+              <Instructions />
+            </div>
+          )}
+        </div>
         {!isLoadingStaticData && currentDungeons.length > 0 && (
           <div className="keystone-calculator-container">
             <KeystoneCalculator
               rawData={searchResults}
-              seasonDungeonsShortNames={currentDungeons.map(dungeon => dungeon.short_name)}
-              keyLevels={keyLevels} 
+              seasonDungeonsShortNames={currentDungeons.map(
+                (dungeon) => dungeon.short_name
+              )}
+              keyLevels={keyLevels}
               setKeyLevels={setKeyLevels}
             />
           </div>
-        )}
+          )}
+        </div>
+        </div>
       <div className="app-footer-container">
           <Footer/>
       </div>
