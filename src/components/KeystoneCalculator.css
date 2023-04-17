@@ -67,23 +67,24 @@ h2 {
 
 .toggle-button {
   position: absolute;
-  left: 2px;
+  left: calc(100% - 25px); /* Adjusts the button position to the right */
   top: 8px;
-  width: 23px;
+  width: 24px;
   height: 20px;
   background-color: #007bff;
   color: white;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: bold;
   border: none;
   border-radius: 30px;
   cursor: pointer;
 }
 
+
 .toggle-button:hover{
-  transition: .1s;
+  transform: scale(1.1);
   background-color: #007bff9d;
-  box-shadow: 0 0 0 1px #007bff9d;
+  box-shadow: 0 0 0 1px white;;
 
 }
 

@@ -63,7 +63,7 @@ const KeystoneCalculator = ({ rawData, seasonDungeonsShortNames, keyLevels, setK
     const initialState = {};
   
     seasonDungeonsShortNames.forEach((dungeon) => {
-      initialState[dungeon] = { 0: 0.05, 1: 0.05 };
+      initialState[dungeon] = { 0: 0.05, 1: 0.05, 2: 0.4, 3: -1 };
     });
   
     return initialState;
@@ -99,56 +99,63 @@ const KeystoneCalculator = ({ rawData, seasonDungeonsShortNames, keyLevels, setK
   
   const calculateTimeBonus = (UP) => {
     var timeBonus = 5;
-    if(UP >= 0.4){
+    if (UP === -1) {
+      return -5;
+    } else if(UP >= 0.4) {
       return timeBonus;
-    } else if(UP >= 0.2){
+    } else if(UP >= 0.2) {
       timeBonus = 5 * UP / 0.4;
       return timeBonus;
     } else {
         timeBonus = 5 * Math.min(UP / 0.4 , 1);
         return timeBonus;
-      }
-    };
+    }  
+  };
     
 
-  const calculateKeyScore = (keyLevel1, keyLevel2, UP1, UP2) => {
-    const calculateSingleKeyScore = (keyLevel, UP) => {
-      let score;
-  
-      if (keyLevel <= 10) {
-        score = 30 + 5 * keyLevel;
-        if (keyLevel >= 7) {
-          score += 5;
+    const calculateKeyScore = (keyLevel1, keyLevel2, UP1, UP2) => {
+      const calculateSingleKeyScore = (keyLevel, UP) => {
+        let score;
+    
+        if (keyLevel <= 10) {
+          score = 30 + 5 * keyLevel;
+          if (keyLevel >= 7) {
+            score += 5;
+          }
+        } else {
+          score = 85 + 7 * (keyLevel - 10);
+          if (keyLevel >= 14) {
+            score += 5;
+          }
         }
-      } else {
-        score = 85 + 7 * (keyLevel - 10);
-        if (keyLevel >= 14) {
-          score += 5;
-        }
+    
+        return score;
+      };
+    
+      if (isNaN(keyLevel1) || isNaN(keyLevel2)) {
+        return 0;
       }
-      return score + calculateTimeBonus(UP);
+    
+      const higherKey = Math.max(keyLevel1, keyLevel2);
+      const lowerKey = Math.min(keyLevel1, keyLevel2);
+    
+      // Calculate scores for each key
+      const lowerKeyScore = calculateSingleKeyScore(lowerKey, UP1);
+      const higherKeyScore = calculateSingleKeyScore(higherKey, UP2);
+    
+      // Calculate the time bonus based on the UP values for the lower and higher keys
+      const timeBonus = calculateTimeBonus(UP1) + calculateTimeBonus(UP2);
+    
+      const AlternateKeyScore = lowerKeyScore * 0.5;
+      const BestKeyScore = higherKeyScore * 1.5;
+    
+      // Return the sum of both scores and add the time bonus
+      return (AlternateKeyScore + BestKeyScore + timeBonus).toFixed(2);
     };
-
-    if (isNaN(keyLevel1) || isNaN(keyLevel2)) {
-      return 0;
-    }
-    const TimeBonus1 = calculateTimeBonus(UP1);
-    const TimeBonus2 = calculateTimeBonus(UP2);
-
-    const higherKey = Math.max(keyLevel1, keyLevel2);
-    const lowerKey = Math.min(keyLevel1, keyLevel2);
-
-  // Calculate scores for each key
-  const lowerKeyScore = calculateSingleKeyScore(lowerKey, UP1);
-  const higherKeyScore = calculateSingleKeyScore(higherKey, UP2);
-
-  const AlternateKeyScore = lowerKeyScore * 0.5;
-  const BestKeyScore = higherKeyScore * 1.5;
-
-  // Return the sum of both scores
-  return (AlternateKeyScore + BestKeyScore).toFixed(2);
-  };
+    
   
+
+  //=== Calculator Total Score Starts Here ====
   const calculateTotalMPS = () => {
     let total = 0;
     for (const dungeon in keyLevels) {
@@ -165,7 +172,7 @@ const KeystoneCalculator = ({ rawData, seasonDungeonsShortNames, keyLevels, setK
   const handleToggleClick = (dungeon, index) => {
     setUPState((prevState) => {
       const currentValue = (prevState[dungeon] && prevState[dungeon][index]) || 0.05;
-      const nextValue = (currentValue === 0.05) ? 0.2 : ((currentValue === 0.2) ? 0.4 : 0.05);
+      const nextValue = (currentValue === 0.05) ? 0.2 : ((currentValue === 0.2) ? 0.4 : (currentValue === 0.4) ? -1 : 0.05);
       return {
         ...prevState,
         [dungeon]: {
@@ -178,73 +185,82 @@ const KeystoneCalculator = ({ rawData, seasonDungeonsShortNames, keyLevels, setK
 
   const getCustomText = (value) => {
     if (value === 0.05) {
-      return '+1';
+      return { text: '+1', backgroundColor: '#007bff' };
     } else if (value === 0.2) {
-      return '+2';
+      return { text: '+2', backgroundColor: '#007bff' };
+    } else if (value === 0.4) {
+      return { text: '+3', backgroundColor: '#007bff' };
     } else {
-      return '+3';
+      return { text: '-1', backgroundColor: 'red' };
     }
   };
 
-//RenderInputPairs Starts Here
-const renderInputPairs = () => {
-  return (
-    <div className="dungeon-grid">
-      <div className="header-row">
-        <div className="dungeon-name" style={{ textDecoration: 'underline' }}>Dungeon</div>
-        <div className="fortified-column">
-          <label>Fortified</label>
-        </div>
-        <div className="tyrannical-column">
-          <label>Tyrannical</label>
-        </div>
-        <div className="sum-display" style={{ textDecoration: 'underline' }}>Dungeon Score</div>
-      </div>
-      {seasonDungeonsShortNames.map((dungeon, i) => (
-        <div key={i} className="dungeon-row">
-          <div className="dungeon-name">{dungeon}</div>
+  const renderInputPairs = () => {
+    return (
+      <div className="dungeon-grid">
+        <div className="header-row">
+          <div className="dungeon-name" style={{ textDecoration: 'underline' }}>Dungeon</div>
           <div className="fortified-column">
-            <button className="toggle-button" onClick={() => handleToggleClick(dungeon, 1)}>
-              {getCustomText((UPState[dungeon] && UPState[dungeon][1]) || 0.05)}
-            </button>
-            <input
-              id={`input-${i + 8}`}
-              type="number"
-              value={keyLevels[dungeon] ? keyLevels[dungeon][1] : ""}
-              onChange={(e) => handleInputChange(dungeon, 1, e.target.value)}
-              className="small-input"
-            />
+            <label>Fortified</label>
           </div>
           <div className="tyrannical-column">
-            <button className="toggle-button" onClick={() => handleToggleClick(dungeon, 0)}>
-              {getCustomText((UPState[dungeon] && UPState[dungeon][0]) || 0.05)}
-            </button>
-            <input
-              id={`input-${i}`}
-              type="number"
-              value={keyLevels[dungeon] ? keyLevels[dungeon][0] : ""}
-              onChange={(e) => handleInputChange(dungeon, 0, e.target.value)}
-              className="small-input"
-            />
+            <label>Tyrannical</label>
           </div>
-          <div className="sum-display">
-            ={" "}
-            {calculateKeyScore(
-              keyLevels[dungeon] ? keyLevels[dungeon][0] : "",
-              keyLevels[dungeon] ? keyLevels[dungeon][1] : "",
-              UPState[dungeon] ? parseFloat(UPState[dungeon][0]) : 0.05,
-              UPState[dungeon] ? parseFloat(UPState[dungeon][1]) : 0.05
-            )}
-          </div>
+          <div className="sum-display" style={{ textDecoration: 'underline' }}>Dungeon Score</div>
         </div>
-      ))}
-    </div>
-  );
-};
-
-
-  
-
+        {seasonDungeonsShortNames.map((dungeon, i) => {
+          const customTextObjFortified = getCustomText((UPState[dungeon] && UPState[dungeon][1]) || 0.05);
+          const customTextObjTyrannical = getCustomText((UPState[dungeon] && UPState[dungeon][0]) || 0.05);
+          return(
+            <div key={i} className="dungeon-row">
+            <div className="dungeon-name">{dungeon}</div>
+            <div className="fortified-column">
+              <input
+                id={`input-${i + 8}`}
+                type="number"
+                value={keyLevels[dungeon] ? keyLevels[dungeon][1] : ""}
+                onChange={(e) => handleInputChange(dungeon, 1, e.target.value)}
+                className="small-input"
+              />
+              <button 
+                className="toggle-button" 
+                onClick={() => handleToggleClick(dungeon, 1)}
+                style={{ backgroundColor: customTextObjFortified.backgroundColor }}
+              >
+                {customTextObjFortified.text}
+              </button>
+            </div>
+            <div className="tyrannical-column">
+              <input
+                id={`input-${i}`}
+                type="number"
+                value={keyLevels[dungeon] ? keyLevels[dungeon][0] : ""}
+                onChange={(e) => handleInputChange(dungeon, 0, e.target.value)}
+                className="small-input"
+              />
+              <button 
+                className="toggle-button" 
+                onClick={() => handleToggleClick(dungeon, 0)}
+                style={{ backgroundColor: customTextObjTyrannical.backgroundColor }}
+              >
+                {customTextObjTyrannical.text}
+              </button>
+            </div>
+            <div className="sum-display">
+              ={" "}
+              {calculateKeyScore(
+                keyLevels[dungeon] ? keyLevels[dungeon][0] : "",
+                keyLevels[dungeon] ? keyLevels[dungeon][1] : "",
+                UPState[dungeon] ? parseFloat(UPState[dungeon][0]) : 0.05,
+                UPState[dungeon] ? parseFloat(UPState[dungeon][1]) : 0.05
+              )}
+            </div>
+          </div>
+          );
+        })}
+      </div>
+    );
+  };
   
 return (
   <div className="keystone-calculator">
@@ -256,7 +272,6 @@ return (
     Load {rawData.character.name}'s Keys
   </button>
 )}
-
 
     {renderInputPairs()}
     {error && <p className="error-message">{error}</p>}

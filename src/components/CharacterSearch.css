@@ -49,6 +49,12 @@
     box-shadow: 0 0 0 2px rgba(0, 119, 255, 0.2);
 }
 
+.error-message {
+    color: red;
+    margin-top: 12px;
+    
+  }
+
 .character-search button {
     cursor: pointer;
     background-color: #0100138a;
@@ -58,20 +64,17 @@
     border: none;
     border-radius: 10px;
     padding: 0.25rem 0.5rem;
-   
     margin-right: 1rem;
     transition: 0.1s;
     height: 2.0rem;
 }
 
-.character-search button:focus {
-
-   
-    box-shadow: 0 0 0 2px rgba(243, 244, 245, 0.2);
+.character-search button:hover{
+  background-color: #0077ff;
+  transition: .5s;
+  box-shadow: 0 0 0 1px white;
 }
 
-.error-message {
-    color: red;
-    margin-top: 12px;
-    
-  }
+.character-search button:focus {
+    box-shadow: 0 0 0 2px rgba(243, 244, 245, 0.2);
+}
