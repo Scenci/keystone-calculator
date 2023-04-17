@@ -4,20 +4,22 @@
 This will be the greatest, bestest, most accurate and useful Mythic+ Calculator on the internet, so help me Dennis.
 
 This calculator was made in hopes that it will be leveraged by the compeative WoW Mythic+ Community. 
-I also wanted to teach myself React with GPT-assistance.
+I also wanted to teach myself React with ChatGPT4-assistance.
 
-Keystone Calculator was never meant to updated indefinitely by me.
-I am making this repoo public in case anyone wants to continue to maintain and improve this calculator.
+Keystone Calculator was never meant to be updated indefinitely by me.
+I am making this repo public in case anyone wants to continue to maintain and improve this calculator.
 You can contact me at dreadmythicplus@gmail.com
 
-Special Thanks to the following people for helping me design/build/test:
+Special Thanks to the following people for helping me design, build and test:
 
-Arcae,
 Connor R,
+Arcae,
 Yokoyama,
 Cerodian,
 Bigmayex,
-Jazzhead,
+Jazzhead
+
+The Dread (Horde) Guild on Frostmane as a whole.
 
 
 
