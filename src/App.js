@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 
-import infoIcon from './assets/information.png';
+import infoIcon from './assets/icons8-info-512.png';
 
 import AffixBanner from './components/AffixBanner';
 import CharacterSearch from './components/CharacterSearch';
