@@ -21,8 +21,8 @@ const Instructions = () => {
         For untimed Keys (-1), we assume -5 points with no considerations beyond this.
       </p>
       <p>
-      <b>Dragonflight: Season 2 Scoring System</b>
-        </p>
+        <b>Dragonflight: Season 2 Scoring System</b>
+      </p>
       {/* Add more instructions as needed */}
     </div>
   );
