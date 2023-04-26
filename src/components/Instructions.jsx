@@ -18,7 +18,7 @@ const Instructions = () => {
       <button className="negative-dummy-toggle-button">-1</button>  Flat -6 Points<br></br>
       </p>
       <p>
-        For untimed Keys (-1), we assume -5 points with no considerations beyond this.
+        For untimed Keys (-1), we assume -6 points with no considerations beyond this.
       </p>
       <p>
         <b>Dragonflight: Season 2 Scoring System</b>
