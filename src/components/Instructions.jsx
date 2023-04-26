@@ -9,7 +9,7 @@ const Instructions = () => {
         Enter key levels by searching or enter them manually.
       </p>
       <p>
-        Scores are approximated, you may expect your the in-game score to be several points higher on average. 
+        Scores are approximated, you may expect your in-game score to be several points higher overall. This is due to timing bonuses being unpredictable.
       </p>
       <p className="dummy-buttons">
       <button className="dummy-toggle-button">+1</button>  +0.625 Points <b>(Default)</b> <br></br>
