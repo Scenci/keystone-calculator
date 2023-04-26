@@ -100,7 +100,7 @@ const KeystoneCalculator = ({ rawData, seasonDungeonsShortNames, keyLevels, setK
   const calculateTimeBonus = (UP) => {
     var timeBonus = 5;
     if (UP === -1) {
-      return -5;
+      return -6;
     } else if(UP >= 0.4) {
       return timeBonus;
     } else if(UP >= 0.2) {
