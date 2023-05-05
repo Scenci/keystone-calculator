@@ -19,7 +19,7 @@ const affixColorMapping = {
     'Bursting': '#F07900',
 
     //Hard
-    'Raging': '##FF0037',
+    'Raging': '#FF0037',
     'Quaking': '#FF0037',
     'Sanguine': '#FF0037',
 
