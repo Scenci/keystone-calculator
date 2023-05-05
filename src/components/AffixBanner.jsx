@@ -22,6 +22,9 @@ const affixColorMapping = {
     'Raging': '#FF0037',
     'Quaking': '#FF0037',
     'Sanguine': '#FF0037',
+    'Afflicted' : '#FF0037',
+    'Incorpreal': '#FF0037',
+    'Entangling': '#FF0037',
 
     //Seasonal
     'Thundering':'#3399dd',
