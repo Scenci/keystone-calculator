@@ -114,6 +114,10 @@ const KeystoneCalculator = ({ rawData, seasonDungeonsShortNames, keyLevels, setK
     
 
     const calculateKeyScore = (keyLevel1, keyLevel2, UP1, UP2) => {
+      if (!keyLevel1 && !keyLevel2) {
+        return 0;
+      }
+
       const calculateSingleKeyScore = (keyLevel, UP) => {
         let score;
     
