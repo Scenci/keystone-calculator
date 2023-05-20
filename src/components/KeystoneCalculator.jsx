@@ -123,12 +123,12 @@ const KeystoneCalculator = ({ rawData, seasonDungeonsShortNames, keyLevels, setK
         let score;
     
         if (keyLevel <= 10) {
-          score = 40 + (5 * keyLevel);
+          score = 37.5 + (5 * keyLevel);
           if (keyLevel >= 7) {
             score += 7.5;
           }
         } else {
-          score = 92.5 + (7 * (keyLevel - 10));
+          score = 85 + (7 * (keyLevel - 10));
           if (keyLevel >= 14) {
             score += 15;
           }
