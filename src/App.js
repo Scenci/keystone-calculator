@@ -46,14 +46,15 @@ function App() {
       <div className="App">
       <div style={{ 
           width: '100%', 
-          backgroundColor: 'red', 
+          backgroundColor: 'orange', 
           color: 'white',
           padding: '10px',
           textAlign: 'center',
           boxSizing: 'border-box'
         }}>
-          Notice: We are aware that scores are currently inaccurate. We are working on a fix ASAP.
+          Notice: Scores are more accurate but will be refined over time.
         </div>
+        
       {!isLoadingStaticData && currentSeason && (<HeaderBanner currentSeason={currentSeason} />)}
         {!isLoadingAffixes && affixes.length > 0 && <div className="affix-container"><AffixBanner affixes={affixes}/></div>}
         
