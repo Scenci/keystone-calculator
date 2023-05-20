@@ -47,7 +47,7 @@ function App() {
       <div style={{ 
           width: '100%', 
           backgroundColor: 'orange', 
-          color: 'white',
+          color: 'black',
           padding: '10px',
           textAlign: 'center',
           boxSizing: 'border-box'
