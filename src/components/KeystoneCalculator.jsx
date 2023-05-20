@@ -118,18 +118,19 @@ const KeystoneCalculator = ({ rawData, seasonDungeonsShortNames, keyLevels, setK
         return 0;
       }
 
-      const calculateSingleKeyScore = (keyLevel, UP) => {
+      //Needs significant reevaluation - I estimated an additional 2.5 to the base score constancts (40 and 92.5) because of (7.5 / 3) for the Tyr/Fort
+      const calculateSingleKeyScore = (keyLevel) => {
         let score;
     
         if (keyLevel <= 10) {
-          score = 30 + 5 * keyLevel;
+          score = 40 + (5 * keyLevel);
           if (keyLevel >= 7) {
-            score += 5;
+            score += 7.5;
           }
         } else {
-          score = 85 + 7 * (keyLevel - 10);
+          score = 92.5 + (7 * (keyLevel - 10));
           if (keyLevel >= 14) {
-            score += 5;
+            score += 15;
           }
         }
     
@@ -144,8 +145,8 @@ const KeystoneCalculator = ({ rawData, seasonDungeonsShortNames, keyLevels, setK
       const lowerKey = Math.min(keyLevel1, keyLevel2);
     
       // Calculate scores for each key
-      const lowerKeyScore = calculateSingleKeyScore(lowerKey, UP1);
-      const higherKeyScore = calculateSingleKeyScore(higherKey, UP2);
+      const lowerKeyScore = calculateSingleKeyScore(lowerKey);
+      const higherKeyScore = calculateSingleKeyScore(higherKey);
     
       // Calculate the time bonus based on the UP values for the lower and higher keys
       const timeBonus = calculateTimeBonus(UP1) + calculateTimeBonus(UP2);
