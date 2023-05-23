@@ -9,11 +9,18 @@ const CharacterSearch = ({ onSearch, setSearchResults }) => {
   const [errorMessage, setErrorMessage] = useState('');
   
 
-  const sanitizeInput = (input) => {
+  const sanitizeSearch = (input) => {
+    console.log("pre-sanitize",input);
     return input
       .toLowerCase()
       .replace(/[^a-z0-9 -]/g, '')
       .replace(/\s+/g, '-');
+  };
+
+  const sanitizeCharacterName = (input) => {
+    console.log("pre-sanitize",input);
+    return input
+      .toLowerCase()
   };
 
   const handleSubmit = (e) => {
@@ -24,8 +31,9 @@ const CharacterSearch = ({ onSearch, setSearchResults }) => {
     }
     setErrorMessage('');
 
-    const sanitizedServer = sanitizeInput(server);
-    const sanitizedCharacterName = sanitizeInput(characterName);
+    const sanitizedServer = sanitizeSearch(server);
+    const sanitizedCharacterName = sanitizeCharacterName(characterName);
+    console.log("post-sanitize",sanitizedCharacterName);
 
     setIsSearching(true);
 

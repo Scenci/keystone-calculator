@@ -118,7 +118,7 @@ const KeystoneCalculator = ({ rawData, seasonDungeonsShortNames, keyLevels, setK
         return 0;
       }
 
-      //Needs significant reevaluation - I estimated an additional 2.5 to the base score constancts (40 and 92.5) because of (7.5 / 3) for the Tyr/Fort
+      //Needs significant reevaluation
       const calculateSingleKeyScore = (keyLevel) => {
         let score;
     
