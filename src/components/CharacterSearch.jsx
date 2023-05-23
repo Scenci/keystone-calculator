@@ -10,7 +10,6 @@ const CharacterSearch = ({ onSearch, setSearchResults }) => {
   
 
   const sanitizeSearch = (input) => {
-    console.log("pre-sanitize",input);
     return input
       .toLowerCase()
       .replace(/[^a-z0-9 -]/g, '')
@@ -18,7 +17,6 @@ const CharacterSearch = ({ onSearch, setSearchResults }) => {
   };
 
   const sanitizeCharacterName = (input) => {
-    console.log("pre-sanitize",input);
     return input
       .toLowerCase()
   };
@@ -33,7 +31,7 @@ const CharacterSearch = ({ onSearch, setSearchResults }) => {
 
     const sanitizedServer = sanitizeSearch(server);
     const sanitizedCharacterName = sanitizeCharacterName(characterName);
-    console.log("post-sanitize",sanitizedCharacterName);
+
 
     setIsSearching(true);
 
