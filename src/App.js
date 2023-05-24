@@ -46,13 +46,14 @@ function App() {
       <div className="App">
       <div style={{ 
           width: '100%', 
-          backgroundColor: 'orange', 
+          backgroundColor: 'lightblue', 
           color: 'black',
-          padding: '10px',
+          padding: '3px',
           textAlign: 'center',
           boxSizing: 'border-box'
+   
         }}>
-          Notice: Scores are more accurate but will be refined over time.
+          Tip: Providing timing bonuses make the scores significantly more accurate.
         </div>
         
       {!isLoadingStaticData && currentSeason && (<HeaderBanner currentSeason={currentSeason} />)}
