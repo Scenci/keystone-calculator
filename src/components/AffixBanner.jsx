@@ -22,9 +22,11 @@ const affixColorMapping = {
     'Raging': '#FF0037',
     'Quaking': '#FF0037',
     'Sanguine': '#FF0037',
-    'Afflicted' : '#FF0037',
-    'Incorpreal': '#FF0037',
-    'Entangling': '#FF0037',
+
+    //Purple (Special - Season 2)
+    'Incorporeal': '#A020F0',
+    'Afflicted' : '#A020F0',
+    'Entangling': '#A020F0',
 
     //Seasonal
     'Thundering':'#3399dd',
