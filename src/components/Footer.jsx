@@ -14,7 +14,7 @@ const Footer = () => {
               <a href="https://github.com/scenci" target="_blank" rel="noopener noreferrer">
                 <img src={githubLogo} alt="Github Logo" />
                 </a>
-                <span className="github-text">COMING<br/>SOON</span>
+                <span className="github-text">CONTRIBUTE</span>
               </div>
 
               <div className="patreon-logo"> 
