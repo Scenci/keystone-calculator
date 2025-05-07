@@ -1,7 +1,7 @@
 # keystone-calculator
 =======
 
-This will be the greatest, bestest, most accurate and useful Mythic+ Calculator on the internet, so help me Dennis.
+NOTICE: THIS PROJECT HAS BEEN PUT ON HIATUS UNTIL FURTHER NOTICE.
 
 This calculator was made in hopes that it will be leveraged by the compeative WoW Mythic+ Community. 
 I also wanted to teach myself React with ChatGPT4-assistance.
