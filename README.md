@@ -1,6 +1,8 @@
 # keystone-calculator
 =======
 
+This project has been put on hiatus. I may return to it or perhaps completely redesign it. I was not getting enough value from hosting this.
+
 This will be the greatest, bestest, most accurate and useful Mythic+ Calculator on the internet, so help me Dennis.
 
 This calculator was made in hopes that it will be leveraged by the compeative WoW Mythic+ Community. 
